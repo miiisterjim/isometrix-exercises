@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using exercise1.Exceptions.StringCalculator;
 using Xunit;
 
@@ -97,8 +98,32 @@ namespace exercise1.tests
         {     
             int expected = 4;       
             string input = "//;\n1;3;1001";            
-            var result = StringCalculator.Add(input, new Func<int,bool>[] { new Func<int,bool>(i => i <= 1000) } );
+            var termFilters = new Func<int,bool>[] { new Func<int,bool>(i => i <= 1000) };
+
+            var result = StringCalculator.Add(input, termFilters);
             Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void Add_correctly_sums_data_from_a_sample_data_file_that_complies_to_the_ruleset ()
+        {     
+            int expected = 548;                    
+            var termFilters = new Func<int,bool>[] { new Func<int,bool>(i => i <= 1000) };
+
+            try
+            {
+                using (var sr = new StreamReader("data/test-data.txt"))
+                {
+                    var input = sr.ReadToEnd();
+                    var result = StringCalculator.Add(input, termFilters);
+                    Assert.Equal(expected, result);
+                }
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine("The file could not be read:");
+                Console.WriteLine(e.Message);
+            }            
         }
 
     }
