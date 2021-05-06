@@ -126,5 +126,44 @@ namespace exercise1.tests
             }            
         }
 
+        [Fact]
+        public void Add_accepts_delimiters_with_length_greater_than_1_and_sums_correctly()
+        {     
+            int expected = 10;       
+            string input = "//[;;;]\n1;;;3;;;6";   
+
+            var result = StringCalculator.Add(input);
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void Add_accepts_multiple_delimiters_with_length_equal_to_1_and_sums_correctly()
+        {     
+            int expected = 15;       
+            string input = "//[;][,][:]\n1;3,6:5";   
+
+            var result = StringCalculator.Add(input);
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void Add_accepts_multiple_delimiters_with_length_greater_than_1_and_sums_correctly()
+        {     
+            int expected = 15;       
+            string input = "//[;;][,,][::]\n1;;3,,6::5";   
+
+            var result = StringCalculator.Add(input);
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void Add_accepts_multiple_delimiters_with_varying_lengths_and_sums_correctly()
+        {     
+            int expected = 15;       
+            string input = "//[;;;][,,,,][::]\n1;;;3,,,,6::5";   
+
+            var result = StringCalculator.Add(input);
+            Assert.Equal(expected, result);
+        }
     }
 }
